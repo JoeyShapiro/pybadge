@@ -7,7 +7,6 @@ import analogio
 import gc
 
 import board
-import pwmio
 import time
 import digitalio
 import simpleio
@@ -43,7 +42,7 @@ text = label.Label(
 text.anchor_point = (0.5, 0.5)  # Center the text
 main_group.append(text)
 
-mem_usage = gc.mem_free() / (gc.mem_alloc()+gc.mem_free()) * 100
+mem_usage = gc.mem_alloc() / (gc.mem_alloc()+gc.mem_free()) * 100
 
 mem = label.Label(
     terminalio.FONT,
@@ -61,29 +60,12 @@ bat = analogio.AnalogIn(board.A6)
 speakerEnable = digitalio.DigitalInOut(board.SPEAKER_ENABLE)
 speakerEnable.switch_to_output(value=True)
 
-# simpleio.tone(board.A0, 200, 0.05)
-
-# Create a PWM output for the speaker
-# speaker = pwmio.PWMOut(board.A0, variable_frequency=True)
-
-# # Basic beep
-# def beep(frequency=440, duration=0.1):
-#     speaker.frequency = frequency
-#     speaker.duty_cycle = 32768  # 50% duty cycle (32768 is half of 65535)
-#     time.sleep(duration)
-#     speaker.duty_cycle = 0      # Turn off the tone
-
-# # Make some sounds
-# beep()  # Basic beep at 440Hz (A4 note)
-# time.sleep(0.1)
-# beep(880, 0.2)  # Higher pitch, longer duration
-
 # For a more complex example with battery info:
 while True:
     event = k.events.get()
 
     if event is not None and event.pressed and event.key_number == 1:
-        simpleio.tone(board.A0, 500, 0.05)
+        simpleio.tone(board.A0, 100, 0.05)
 
     # Update display with battery info
     val = bat.value * 3.3 / 65536 * 2
