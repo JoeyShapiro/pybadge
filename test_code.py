@@ -65,12 +65,12 @@ while True:
     event = k.events.get()
 
     if event is not None and event.pressed and event.key_number == 1:
-        simpleio.tone(board.A0, 100, 0.05)
+        simpleio.tone(board.A0, 100, 0.05, 0.1)
 
     # Update display with battery info
     val = bat.value * 3.3 / 65536 * 2
     per = ((3.87132 - 3.2) / (4.2-3.2))*100
     text.text = f"bat: {per:.2f}%"
-    mem_usage = gc.mem_free() / (gc.mem_alloc()+gc.mem_free()) * 100
+    mem_usage = gc.mem_alloc() / (gc.mem_alloc()+gc.mem_free()) * 100
     mem.text = f"mem: {mem_usage:.2f}%"
     time.sleep(1/60)
